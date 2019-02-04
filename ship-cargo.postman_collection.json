@@ -1,0 +1,1810 @@
+{
+	"info": {
+		"_postman_id": "c07251bc-ddd3-4231-b2c5-d289cc127d35",
+		"name": "CS 493 Assignment 4",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get all ships",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "65ac47b8-aaeb-48ca-816f-b18838ff32c7",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://emerson-assignment-4.appspot.com/ships",
+					"protocol": "https",
+					"host": [
+						"emerson-assignment-4",
+						"appspot",
+						"com"
+					],
+					"path": [
+						"ships"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all cargo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9dcc9b08-8174-4a10-9d25-176bc474f7bc",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://emerson-assignment-4.appspot.com/cargo",
+					"protocol": "https",
+					"host": [
+						"emerson-assignment-4",
+						"appspot",
+						"com"
+					],
+					"path": [
+						"cargo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add new ship (#1)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "32e3b3b4-5e0d-431f-92b0-880c3c5abf65",
+						"exec": [
+							"pm.test(\"Successful POST request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([201]);",
+							"    ",
+							"    //Set jsonData",
+							"    let jsonData = pm.response.json();",
+							"    pm.environment.set('ship_id', jsonData.id)",
+							"});",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Victory\",\n\t\"type\": \"kayak\",\n\t\"length\": 20,\n\t\"cargo\": null\n}"
+				},
+				"url": {
+					"raw": "https://emerson-assignment-4.appspot.com/ships",
+					"protocol": "https",
+					"host": [
+						"emerson-assignment-4",
+						"appspot",
+						"com"
+					],
+					"path": [
+						"ships"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Confirm added #1 ship info correct",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5a7f8ee1-855c-4082-a718-7ad3f1e59efc",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Newly added ship body is as expected\", function () {",
+							"    ",
+							"    var body = {",
+							"\t\"name\": \"Victory\",",
+							"\t\"type\": \"kayak\",",
+							"\t\"length\": 20,",
+							"\t\"cargo\": null,",
+							"\t\"id\":  pm.environment.get('ship_id')",
+							"}",
+							"",
+							"    let jsonData = pm.response.json();",
+							"",
+							"    pm.expect(jsonData.name).to.eql(body.name);",
+							"    pm.expect(jsonData.type).to.eql(body.type);",
+							"    pm.expect(jsonData.length).to.eql(body.length);",
+							"    pm.expect(parseInt(jsonData.id)).to.eql(body.id);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://emerson-assignment-4.appspot.com/ships/{{ship_id}}",
+					"protocol": "https",
+					"host": [
+						"emerson-assignment-4",
+						"appspot",
+						"com"
+					],
+					"path": [
+						"ships",
+						"{{ship_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all ships (after #1 ship added)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "65ac47b8-aaeb-48ca-816f-b18838ff32c7",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://emerson-assignment-4.appspot.com/ships",
+					"protocol": "https",
+					"host": [
+						"emerson-assignment-4",
+						"appspot",
+						"com"
+					],
+					"path": [
+						"ships"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post new cargo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7086c764-ebd7-432a-86b3-bac8327518f5",
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"    ",
+							"    let jsonData = pm.response.json();",
+							"    pm.environment.set('cargo_id', jsonData.id)",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"weight\": 77,\n\t\"carrier\": null,\n\t\"content\": \"soybeans\",\n\t\"delivery_date\": \"12/01/2018\"\n}"
+				},
+				"url": {
+					"raw": "https://emerson-assignment-4.appspot.com/cargo",
+					"protocol": "https",
+					"host": [
+						"emerson-assignment-4",
+						"appspot",
+						"com"
+					],
+					"path": [
+						"cargo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Confirm added cargo info is correct",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2b6a5ee2-5adb-4939-aecd-aa18043fd033",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Newly added cargo body is as expected\", function () {",
+							"    ",
+							"    var body = {",
+							"\t\"weight\": 77,",
+							"\t\"carrier\": null,",
+							"\t\"content\": \"soybeans\",",
+							"\t\"delivery_date\": \"12/01/2018\",",
+							"\t\"id\":  pm.environment.get('cargo_id')",
+							"}",
+							"",
+							"    let jsonData = pm.response.json();",
+							"    ",
+							"    console.log(jsonData);",
+							"",
+							"    pm.expect(jsonData.weight).to.eql(body.weight);",
+							"    pm.expect(jsonData.content).to.eql(body.content);",
+							"    pm.expect(jsonData.delivery_date).to.eql(body.delivery_date);",
+							"    pm.expect(parseInt(jsonData.id)).to.eql(body.id);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://emerson-assignment-4.appspot.com/cargo/{{cargo_id}}",
+					"protocol": "https",
+					"host": [
+						"emerson-assignment-4",
+						"appspot",
+						"com"
+					],
+					"path": [
+						"cargo",
+						"{{cargo_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all cargo (after new cargo added)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9dcc9b08-8174-4a10-9d25-176bc474f7bc",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://emerson-assignment-4.appspot.com/cargo",
+					"protocol": "https",
+					"host": [
+						"emerson-assignment-4",
+						"appspot",
+						"com"
+					],
+					"path": [
+						"cargo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add cargo to #1 ship",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "169cbec4-02d4-4e95-8c17-1307d64dd426",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://emerson-assignment-4.appspot.com/ships/{{ship_id}}/cargo/{{cargo_id}}",
+					"protocol": "https",
+					"host": [
+						"emerson-assignment-4",
+						"appspot",
+						"com"
+					],
+					"path": [
+						"ships",
+						"{{ship_id}}",
+						"cargo",
+						"{{cargo_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post ADDITIONAL new cargo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7086c764-ebd7-432a-86b3-bac8327518f5",
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"    ",
+							"    let jsonData = pm.response.json();",
+							"    pm.environment.set('cargo_id2', jsonData.id)",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"weight\": 150,\n\t\"carrier\": null,\n\t\"content\": \"rutabagas\",\n\t\"delivery_date\": \"1/23/2018\"\n}"
+				},
+				"url": {
+					"raw": "https://emerson-assignment-4.appspot.com/cargo",
+					"protocol": "https",
+					"host": [
+						"emerson-assignment-4",
+						"appspot",
+						"com"
+					],
+					"path": [
+						"cargo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add ADDITIONAL to #1 ship",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "169cbec4-02d4-4e95-8c17-1307d64dd426",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://emerson-assignment-4.appspot.com/ships/{{ship_id}}/cargo/{{cargo_id2}}",
+					"protocol": "https",
+					"host": [
+						"emerson-assignment-4",
+						"appspot",
+						"com"
+					],
+					"path": [
+						"ships",
+						"{{ship_id}}",
+						"cargo",
+						"{{cargo_id2}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Confirm #1 ship lists added cargo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5a7f8ee1-855c-4082-a718-7ad3f1e59efc",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"#1 ship now lists added cargo\", function () {",
+							"    ",
+							"    var cargo_id = pm.environment.get('cargo_id');",
+							"",
+							"    let jsonData = pm.response.json();",
+							"    var found = false;",
+							"    for(var i in jsonData.cargo) {",
+							"        if (parseInt(jsonData.cargo[i].id) === cargo_id) {",
+							"            found = true;",
+							"        }",
+							"    }",
+							"",
+							"    pm.expect(found).to.eql(true);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://emerson-assignment-4.appspot.com/ships/{{ship_id}}",
+					"protocol": "https",
+					"host": [
+						"emerson-assignment-4",
+						"appspot",
+						"com"
+					],
+					"path": [
+						"ships",
+						"{{ship_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Confirm added cargo lists #1 as carrier",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5a7f8ee1-855c-4082-a718-7ad3f1e59efc",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Added cargo now lists #1 ship as carrier\", function () {",
+							"    ",
+							"    var ship_id = pm.environment.get('ship_id');",
+							"",
+							"    let jsonData = pm.response.json();",
+							"",
+							"    pm.expect(parseInt(jsonData.carrier.id)).to.eql(ship_id);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://emerson-assignment-4.appspot.com/cargo/{{cargo_id2}}",
+					"protocol": "https",
+					"host": [
+						"emerson-assignment-4",
+						"appspot",
+						"com"
+					],
+					"path": [
+						"cargo",
+						"{{cargo_id2}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Modify cargo on #1 ship",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "28e252b9-6ffe-4fea-9772-f0975b59afb5",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"weight\": 77,\n\t\"carrier\": null,\n\t\"content\": \"soy milk\",\n\t\"delivery_date\": \"12/01/2018\"\n}"
+				},
+				"url": {
+					"raw": "https://emerson-assignment-4.appspot.com/cargo/{{cargo_id}}",
+					"protocol": "https",
+					"host": [
+						"emerson-assignment-4",
+						"appspot",
+						"com"
+					],
+					"path": [
+						"cargo",
+						"{{cargo_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Confirm modified cargo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2b6a5ee2-5adb-4939-aecd-aa18043fd033",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Cargo contents have now changed\", function () {",
+							"    ",
+							"    var body = {",
+							"\t\"weight\": 77,",
+							"\t\"carrier\": null,",
+							"\t\"content\": \"soy milk\",",
+							"\t\"delivery_date\": \"12/01/2018\",",
+							"\t\"id\":  pm.environment.get('cargo_id')",
+							"}",
+							"",
+							"    let jsonData = pm.response.json();",
+							"    ",
+							"    console.log(jsonData);",
+							"",
+							"    pm.expect(jsonData.weight).to.eql(body.weight);",
+							"    pm.expect(jsonData.content).to.eql(body.content);",
+							"    pm.expect(jsonData.delivery_date).to.eql(body.delivery_date);",
+							"    pm.expect(parseInt(jsonData.id)).to.eql(body.id);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://emerson-assignment-4.appspot.com/cargo/{{cargo_id}}",
+					"protocol": "https",
+					"host": [
+						"emerson-assignment-4",
+						"appspot",
+						"com"
+					],
+					"path": [
+						"cargo",
+						"{{cargo_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Modify #1 ship",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"New Victory\",\n\t\"type\": \"barge\",\n\t\"length\": 200,\n\t\"cargo\": null\n}"
+				},
+				"url": {
+					"raw": "https://emerson-assignment-4.appspot.com/ships/{{ship_id}}",
+					"protocol": "https",
+					"host": [
+						"emerson-assignment-4",
+						"appspot",
+						"com"
+					],
+					"path": [
+						"ships",
+						"{{ship_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Confirm modified ship",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2b6a5ee2-5adb-4939-aecd-aa18043fd033",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Ship name, type, and length now changed\", function () {",
+							"    ",
+							"    var body = {",
+							"\t\"name\": \"New Victory\",",
+							"\t\"type\": \"barge\",",
+							"\t\"length\": 200,",
+							"\t\"id\":  pm.environment.get('ship_id')",
+							"}",
+							"",
+							"    let jsonData = pm.response.json();",
+							"",
+							"    pm.expect(jsonData.name).to.eql(body.name);",
+							"    pm.expect(jsonData.type).to.eql(body.type);",
+							"    pm.expect(jsonData.length).to.eql(body.length);",
+							"    pm.expect(parseInt(jsonData.id)).to.eql(body.id);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://emerson-assignment-4.appspot.com/ships/{{ship_id}}",
+					"protocol": "https",
+					"host": [
+						"emerson-assignment-4",
+						"appspot",
+						"com"
+					],
+					"path": [
+						"ships",
+						"{{ship_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add new ship (#2)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "32e3b3b4-5e0d-431f-92b0-880c3c5abf65",
+						"exec": [
+							"pm.test(\"Successful POST request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([201]);",
+							"    ",
+							"    //Set jsonData",
+							"    let jsonData = pm.response.json();",
+							"    pm.environment.set('ship_id2', jsonData.id)",
+							"});",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Tiny But Mighty\",\n\t\"type\": \"paper boat\",\n\t\"length\": 5,\n\t\"cargo\": null\n}"
+				},
+				"url": {
+					"raw": "https://emerson-assignment-4.appspot.com/ships",
+					"protocol": "https",
+					"host": [
+						"emerson-assignment-4",
+						"appspot",
+						"com"
+					],
+					"path": [
+						"ships"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Confirm added ship info correct (#2)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5a7f8ee1-855c-4082-a718-7ad3f1e59efc",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Ship #2 added correctly\", function () {",
+							"    ",
+							"    var body = {",
+							"\t\"name\": \"Tiny But Mighty\",",
+							"\t\"type\": \"paper boat\",",
+							"\t\"length\": 5,",
+							"\t\"cargo\": null,",
+							"\t\"id\":  pm.environment.get('ship_id2')",
+							"}",
+							"",
+							"    let jsonData = pm.response.json();",
+							"",
+							"    pm.expect(jsonData.name).to.eql(body.name);",
+							"    pm.expect(jsonData.type).to.eql(body.type);",
+							"    pm.expect(jsonData.length).to.eql(body.length);",
+							"    pm.expect(parseInt(jsonData.id)).to.eql(body.id);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://emerson-assignment-4.appspot.com/ships/{{ship_id2}}",
+					"protocol": "https",
+					"host": [
+						"emerson-assignment-4",
+						"appspot",
+						"com"
+					],
+					"path": [
+						"ships",
+						"{{ship_id2}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all ships (after #2 ship added)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "65ac47b8-aaeb-48ca-816f-b18838ff32c7",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://emerson-assignment-4.appspot.com/ships",
+					"protocol": "https",
+					"host": [
+						"emerson-assignment-4",
+						"appspot",
+						"com"
+					],
+					"path": [
+						"ships"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Move cargo on #1 ship to #2 ship",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2d55a636-533d-4632-bb7b-5f8a476f6f3b",
+						"exec": [
+							"pm.test(\"Status code is 403\", function () {",
+							"    pm.response.to.have.status(403);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://emerson-assignment-4.appspot.com/ships/{{ship_id}}/cargo/{{cargo_id}}",
+					"protocol": "https",
+					"host": [
+						"emerson-assignment-4",
+						"appspot",
+						"com"
+					],
+					"path": [
+						"ships",
+						"{{ship_id}}",
+						"cargo",
+						"{{cargo_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add cargo #3",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7086c764-ebd7-432a-86b3-bac8327518f5",
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"    ",
+							"    let jsonData = pm.response.json();",
+							"    pm.environment.set('cargo_id3', jsonData.id)",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"weight\": 567,\n\t\"carrier\": null,\n\t\"content\": \"bananas\",\n\t\"delivery_date\": \"12/11/2018\"\n}"
+				},
+				"url": {
+					"raw": "https://emerson-assignment-4.appspot.com/cargo",
+					"protocol": "https",
+					"host": [
+						"emerson-assignment-4",
+						"appspot",
+						"com"
+					],
+					"path": [
+						"cargo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add cargo to #2 ship",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d565570f-082a-4e2d-98aa-1aefdd43309e",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://emerson-assignment-4.appspot.com/ships/{{ship_id2}}/cargo/{{cargo_id3}}",
+					"protocol": "https",
+					"host": [
+						"emerson-assignment-4",
+						"appspot",
+						"com"
+					],
+					"path": [
+						"ships",
+						"{{ship_id2}}",
+						"cargo",
+						"{{cargo_id3}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Confirm added cargo lists #2 as carrier",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5a7f8ee1-855c-4082-a718-7ad3f1e59efc",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Added cargo now lists #2 ship as carrier\", function () {",
+							"    ",
+							"    var ship_id = pm.environment.get('ship_id2');",
+							"",
+							"    let jsonData = pm.response.json();",
+							"",
+							"    pm.expect(parseInt(jsonData.carrier.id)).to.eql(ship_id);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://emerson-assignment-4.appspot.com/cargo/{{cargo_id3}}",
+					"protocol": "https",
+					"host": [
+						"emerson-assignment-4",
+						"appspot",
+						"com"
+					],
+					"path": [
+						"cargo",
+						"{{cargo_id3}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Confirm #2 ship lists added cargo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "878d9d51-3444-452d-baf5-418c6b6171b4",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"#2 ship now lists added cargo\", function () {",
+							"    ",
+							"    var cargo_id = pm.environment.get('cargo_id3');",
+							"",
+							"    let jsonData = pm.response.json();",
+							"",
+							"    pm.expect(parseInt(jsonData.cargo[0].id)).to.eql(cargo_id);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://emerson-assignment-4.appspot.com/ships/{{ship_id2}}",
+					"protocol": "https",
+					"host": [
+						"emerson-assignment-4",
+						"appspot",
+						"com"
+					],
+					"path": [
+						"ships",
+						"{{ship_id2}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete MORE cargo from #2 ship",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d5177c20-74a8-45aa-86f3-ebfb417f20a1",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://emerson-assignment-4.appspot.com/ships/{{ship_id}}/cargo/{{cargo_id2}}",
+					"protocol": "https",
+					"host": [
+						"emerson-assignment-4",
+						"appspot",
+						"com"
+					],
+					"path": [
+						"ships",
+						"{{ship_id}}",
+						"cargo",
+						"{{cargo_id2}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Confirm #2 ship does not have MORE cargo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5a7f8ee1-855c-4082-a718-7ad3f1e59efc",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"MORE cargo not found in #2 ship's cargo list\", function () {",
+							"    ",
+							"    var cargo_id = pm.environment.get('cargo_id2');",
+							"",
+							"    let jsonData = pm.response.json();",
+							"",
+							"    pm.expect(parseInt(jsonData.cargo.id)).to.not.eql(cargo_id);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://emerson-assignment-4.appspot.com/ships/{{ship_id2}}",
+					"protocol": "https",
+					"host": [
+						"emerson-assignment-4",
+						"appspot",
+						"com"
+					],
+					"path": [
+						"ships",
+						"{{ship_id2}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add MORE cargo to #2 ship",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://emerson-assignment-4.appspot.com/ships/{{ship_id2}}/cargo/{{cargo_id2}}",
+					"protocol": "https",
+					"host": [
+						"emerson-assignment-4",
+						"appspot",
+						"com"
+					],
+					"path": [
+						"ships",
+						"{{ship_id2}}",
+						"cargo",
+						"{{cargo_id2}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Confirm MORE cargo lists #2 as carrier",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5a7f8ee1-855c-4082-a718-7ad3f1e59efc",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"MORE cargo now lists #2 ship as carrier\", function () {",
+							"    ",
+							"    var ship_id = pm.environment.get('ship_id2');",
+							"",
+							"    let jsonData = pm.response.json();",
+							"",
+							"    pm.expect(parseInt(jsonData.carrier.id)).to.eql(ship_id);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://emerson-assignment-4.appspot.com/cargo/{{cargo_id2}}",
+					"protocol": "https",
+					"host": [
+						"emerson-assignment-4",
+						"appspot",
+						"com"
+					],
+					"path": [
+						"cargo",
+						"{{cargo_id2}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Confirm #2 ship lists MORE cargo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5a7f8ee1-855c-4082-a718-7ad3f1e59efc",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"#2 ship now lists MORE cargo\", function () {",
+							"    ",
+							"    var cargo_id = pm.environment.get('cargo_id2');",
+							"",
+							"    let jsonData = pm.response.json();",
+							"    var found = false;",
+							"    for(var i in jsonData.cargo) {",
+							"        if (parseInt(jsonData.cargo[i].id) === cargo_id) {",
+							"            found = true;",
+							"        }",
+							"    }",
+							"",
+							"    pm.expect(found).to.eql(true);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://emerson-assignment-4.appspot.com/ships/{{ship_id2}}",
+					"protocol": "https",
+					"host": [
+						"emerson-assignment-4",
+						"appspot",
+						"com"
+					],
+					"path": [
+						"ships",
+						"{{ship_id2}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Confirm MORE cargo not in all cargo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5a7f8ee1-855c-4082-a718-7ad3f1e59efc",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://emerson-assignment-4.appspot.com/cargo",
+					"protocol": "https",
+					"host": [
+						"emerson-assignment-4",
+						"appspot",
+						"com"
+					],
+					"path": [
+						"cargo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete #2 ship",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d5177c20-74a8-45aa-86f3-ebfb417f20a1",
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {",
+							"    pm.response.to.have.status(204);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://emerson-assignment-4.appspot.com/ships/{{ship_id2}}",
+					"protocol": "https",
+					"host": [
+						"emerson-assignment-4",
+						"appspot",
+						"com"
+					],
+					"path": [
+						"ships",
+						"{{ship_id2}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Confirm  #2 ship has been deleted",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7804cc39-1093-4ebb-b9b7-fc1d00ea8ae7",
+						"exec": [
+							"pm.test(\"Ship not found\", function () {",
+							"    pm.response.to.have.status(403);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://emerson-assignment-4.appspot.com/ships/{{ship_id2}}",
+					"protocol": "https",
+					"host": [
+						"emerson-assignment-4",
+						"appspot",
+						"com"
+					],
+					"path": [
+						"ships",
+						"{{ship_id2}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete cargo 3",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5a7f8ee1-855c-4082-a718-7ad3f1e59efc",
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {",
+							"    pm.response.to.have.status(204);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://emerson-assignment-4.appspot.com/cargo/{{cargo_id3}}",
+					"protocol": "https",
+					"host": [
+						"emerson-assignment-4",
+						"appspot",
+						"com"
+					],
+					"path": [
+						"cargo",
+						"{{cargo_id3}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Confirm cargo3 has been deleted",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5a7f8ee1-855c-4082-a718-7ad3f1e59efc",
+						"exec": [
+							"pm.test(\"Cargo not found\", function () {",
+							"    pm.response.to.have.status(403);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://emerson-assignment-4.appspot.com/cargo/{{cargo_id3}}",
+					"protocol": "https",
+					"host": [
+						"emerson-assignment-4",
+						"appspot",
+						"com"
+					],
+					"path": [
+						"cargo",
+						"{{cargo_id3}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Confirm cargo from #2 ship exists",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "26080a11-13e7-4c00-95e2-4e833d9dbb8e",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Cargo from #2 ship is still in cargo list\", function () {",
+							"    ",
+							"    var cargo_id = pm.environment.get('cargo_id2');",
+							"",
+							"    let jsonData = pm.response.json();",
+							"    ",
+							"    pm.expect(parseInt(jsonData.id)).to.eql(cargo_id);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://emerson-assignment-4.appspot.com/cargo/{{cargo_id2}}",
+					"protocol": "https",
+					"host": [
+						"emerson-assignment-4",
+						"appspot",
+						"com"
+					],
+					"path": [
+						"cargo",
+						"{{cargo_id2}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test cargo self link",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "26080a11-13e7-4c00-95e2-4e833d9dbb8e",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.environment.set('link', pm.response.json().self);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://emerson-assignment-4.appspot.com/cargo/{{cargo_id2}}",
+					"protocol": "https",
+					"host": [
+						"emerson-assignment-4",
+						"appspot",
+						"com"
+					],
+					"path": [
+						"cargo",
+						"{{cargo_id2}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test cargo self link part 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "26080a11-13e7-4c00-95e2-4e833d9dbb8e",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Cargo from #2 ship is still in cargo list\", function () {",
+							"    ",
+							"    var cargo_id = pm.environment.get('cargo_id2');",
+							"",
+							"    let jsonData = pm.response.json();",
+							"    ",
+							"    pm.expect(parseInt(jsonData.id)).to.eql(cargo_id);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{link}}",
+					"host": [
+						"{{link}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Testing pagenation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "26080a11-13e7-4c00-95e2-4e833d9dbb8e",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.environment.set('next',  pm.response.json().next);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://emerson-assignment-4.appspot.com/cargo",
+					"protocol": "https",
+					"host": [
+						"emerson-assignment-4",
+						"appspot",
+						"com"
+					],
+					"path": [
+						"cargo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Testing pagenation part 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "26080a11-13e7-4c00-95e2-4e833d9dbb8e",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Cargo page 2\", function () {",
+							"    ",
+							"    var cargo_id = pm.environment.get('cargo_id2');",
+							"",
+							"    let jsonData = pm.response.json();",
+							"    console.log(jsonData.next)",
+							"    ",
+							"    pm.expect(jsonData.next).to.eql(\"https://emerson-assignment-4.appspot.com/cargo?offset=6\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{next}}",
+					"host": [
+						"{{next}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
