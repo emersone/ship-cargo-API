@@ -4,13 +4,13 @@ const Datastore = require('@google-cloud/datastore');
 const bodyParser = require('body-parser');
 
 //Connects to Google App Engine's Datastore
-const projectId = 'emerson-assignment-4';
+const projectId = 'ship-cargo-merchant-api;
 const datastore = new Datastore({projectId:projectId});
 
 //Defines kinds
 const SHIP = "Ship";
 const CARGO = "cargo";
-const BASE_URL = "https://emerson-assignment-4.appspot.com";
+const BASE_URL = "https://ship-cargo-merchant-api.appspot.com";
 
 app.use(bodyParser.json());
 
