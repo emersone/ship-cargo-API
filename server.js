@@ -4,7 +4,7 @@ const Datastore = require('@google-cloud/datastore');
 const bodyParser = require('body-parser');
 
 //Connects to Google App Engine's Datastore
-const projectId = 'ship-cargo-merchant-api;
+const projectId = 'ship-cargo-merchant-api';
 const datastore = new Datastore({projectId:projectId});
 
 //Defines kinds
