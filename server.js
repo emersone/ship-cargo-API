@@ -1,14 +1,3 @@
-
-/*Name: Elizabeth Emerson
-Course: CS 493
-Date: 28 October 2018
-Assignment: Assignment 4: Intermediate Restful API
-Notes: Consulted code from Google Datastore tutorials and CS 493 material,
-especially the "Lodging/Guests" project files provided to the class. This
-assignment is based off of code I wrote for Assignment 3.
-*/
-
-
 const express = require('express');
 const app = express();
 const Datastore = require('@google-cloud/datastore');
@@ -19,7 +8,6 @@ const projectId = 'emerson-assignment-4';
 const datastore = new Datastore({projectId:projectId});
 
 //Defines kinds
-//const SLIP = "Slip";
 const SHIP = "Ship";
 const CARGO = "cargo";
 const BASE_URL = "https://emerson-assignment-4.appspot.com";
@@ -34,9 +22,8 @@ function fromDatastore(item){
 }
 
 
-/* ------------- Begin Cargo Model Functions ------------- */
+/* ------------- Cargo Functions ------------- */
 
-//DONE
 //Add a new cargo
 function post_cargo(weight, content, delivery_date){
   var key = datastore.key(CARGO);
@@ -45,7 +32,6 @@ function post_cargo(weight, content, delivery_date){
 }
 
 
-//Needs self-links when getting all cargo
 function get_cargos(offset) {
 	var new_offset;
 
@@ -65,7 +51,6 @@ function get_cargos(offset) {
 		});
 }
 
-//Needs self-links when getting all cargo
 function get_cargos_internal() {
 	const q = datastore.createQuery(CARGO);
 	return datastore.runQuery(q).then( (entities) => {
@@ -88,7 +73,6 @@ function get_cargo(id) {
 }
 
 
-//DONE
 function get_cargo_from_ship(ship_id, offset) {
 	var new_offset;
 
@@ -112,7 +96,6 @@ function get_cargo_from_ship(ship_id, offset) {
 }
 
 
-//TODO
 function add_cargo_to_ship(cargo_id, ship_id) {
     const key = datastore.key([CARGO, parseInt(cargo_id,10)]);
 
@@ -151,7 +134,6 @@ function add_cargo_to_ship(cargo_id, ship_id) {
 }
 
 
-//TODO figure out why it can't 403
 function remove_cargo_from_ship(cargo_id, ship_id) {
 	const key = datastore.key([CARGO, parseInt(cargo_id,10)]);
 
@@ -182,19 +164,17 @@ function put_cargo(id, weight, content, delivery_date){
 }
 
 
-//DONE
 //Delete specific cargo
 function delete_cargo(id){
     const key = datastore.key([CARGO, parseInt(id,10)]);
     return datastore.delete(key);
 }
-/* ------------- End Slip Model Functions ------------- */
 
 
 
-/* ------------- Begin Ship Model Functions ------------- */
 
-//DONE
+/* ------------- Ship Functions ------------- */
+
 //Add a new ship
 function post_ship(name, type, length){
 	if (isNaN(length)) {
@@ -248,7 +228,6 @@ function get_ships(offset){
 }
 
 
-//DONE
 //Edit a ship
 function put_ship(id, name, type, length){
 	if (isNaN(length)) {
@@ -275,13 +254,12 @@ function delete_ship(ship_id){
 	});
 
 }
-/* ------------- End Slip Model Functions ------------- */
 
 
 
-/* ------------- Begin Cargo Controller Functions ------------- */
 
-//
+/* ------------- Cargo Controller Functions ------------- */
+
 app.get('/cargo', function(req, res){
  var offset = 0;
  if (!isNaN(req.query.offset)) {
@@ -385,7 +363,7 @@ app.delete('/cargo/:id', function(req, res){
 
 
 
-/* ------------- Begin Ship Controller Functions ------------- */
+/* ------------- Ship Controller Functions ------------- */
 
 //Get specific ship
 app.get('/ships/:id', function(req, res){
@@ -448,7 +426,6 @@ app.delete('/ships/:id', function(req, res){
     	res.status(403).end();
     });
 });
-/* ------------- End Ship Controller Functions ------------- */
 
 
 // Listen to the App Engine-specified port, or 8080 otherwise
